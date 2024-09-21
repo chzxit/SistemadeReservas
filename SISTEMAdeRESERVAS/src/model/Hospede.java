@@ -1,16 +1,16 @@
 package model;
 
-public class Cliente {
+public class Hospede {
 	private String nome;
 	private String telefone;
 	private String cpf;
 	private String cep;
 
-	public Cliente(String nome, String telefone, String cpf, String cep) {
+	public Hospede(String nome, String telefone, String cpf, String cep) {
 		super();
 		this.cep = cep;
 		this.cpf = cpf;
-		this.nome = nome; 
+		this.nome = nome;
 		this.telefone = telefone;
 
 	}

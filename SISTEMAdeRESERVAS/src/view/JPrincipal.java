@@ -42,7 +42,7 @@ public class JPrincipal extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("HOTEL");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel.setBounds(221, 10, 72, 51);
+		lblNewLabel.setBounds(225, 11, 72, 51);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Reservas");
@@ -53,5 +53,17 @@ public class JPrincipal extends JFrame {
 		});
 		btnNewButton.setBounds(10, 159, 133, 41);
 		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Check in");
+		btnNewButton_1.setBounds(10, 234, 133, 41);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Check out");
+		btnNewButton_2.setBounds(360, 234, 133, 41);
+		contentPane.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Hospedes");
+		btnNewButton_3.setBounds(360, 159, 133, 41);
+		contentPane.add(btnNewButton_3);
 	}
 }
