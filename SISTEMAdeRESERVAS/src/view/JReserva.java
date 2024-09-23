@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.Quarto;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -12,6 +15,7 @@ import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 
 public class JReserva extends JFrame {
@@ -45,23 +49,39 @@ public class JReserva extends JFrame {
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
 		lblNewLabel.setBounds(164, 11, 115, 35);
 		contentPane.add(lblNewLabel);
-		String[] quartos = { " ", "Quarto 243", "Quarto 244", "Quarto 245", "Quarto 246", "Quarto 247", "Quarto 248",
-				"Quarto 249", "Quarto 250", "Quarto 251", "Quarto 252", "Quarto 253", "Quarto 254", "Quarto 255",
-				"Quarto 256", "Quarto 257", "Quarto 258", "Quarto 259", "Quarto 260" };
-		JComboBox<String> comboBox = new JComboBox(quartos);
+		// Array para criar os quartos:
+		Quarto[] quartos = { new Quarto(243, true), new Quarto(244, true), new Quarto(245, true), new Quarto(246, true),
+				new Quarto(247, true), new Quarto(248, true), new Quarto(249, true), new Quarto(250, true),
+				new Quarto(251, true), new Quarto(252, true), new Quarto(253, true), new Quarto(254, true),
+				new Quarto(255, true), new Quarto(256, true), new Quarto(257, true), new Quarto(258, true) };
+
+		JComboBox<Quarto> comboBox = new JComboBox<>(quartos);
 		comboBox.setBounds(164, 109, 115, 22);
 		contentPane.add(comboBox);
 
 		JButton btnNewButton = new JButton("Reservar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (comboBox.getSelectedItem() != null) {
-					JOptionPane.showMessageDialog(btnNewButton, "Quarto reservado com sucesso! ");
+				// vericação do botão de reservar:
+				Quarto quartoSelecionado = (Quarto) comboBox.getSelectedItem();
+				for (Quarto quarto : quartos) {
+					if (quartoSelecionado != null) {
+						if (quartoSelecionado.isDisponivel()) {
+							quarto.reservar();
+							JOptionPane.showMessageDialog(btnNewButton, "Quarto foi reservado com sucesso! ");
+							break;
+						}else if(!quartoSelecionado.isDisponivel()) {
+							JOptionPane.showMessageDialog(btnNewButton,
+									"O quarto está indisponivel no momento, escolha outro quarto. ");
+							break;
+						} 
+					}
+
 				}
 
 			}
 		});
-		btnNewButton.setBounds(323, 228, 101, 22);
+		btnNewButton.setBounds(323, 221, 101, 29);
 		contentPane.add(btnNewButton);
 	}
 }
