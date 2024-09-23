@@ -14,9 +14,7 @@ public class JCheckIn extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -30,9 +28,6 @@ public class JCheckIn extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public JCheckIn() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 470, 312);
