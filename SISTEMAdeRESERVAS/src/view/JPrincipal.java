@@ -46,10 +46,6 @@ public class JPrincipal extends JFrame {
 		JButton btnNewButton = new JButton("Reservas");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JReserva jReserva = new JReserva();
-				jReserva.setLocationRelativeTo(jReserva);
-				jReserva.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-				jReserva.setVisible(true);
 				
 			}
 		});
@@ -57,6 +53,14 @@ public class JPrincipal extends JFrame {
 		contentPane.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Check in");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JCheckIn Jcheckin = new JCheckIn();
+				Jcheckin.setLocationRelativeTo(Jcheckin);
+				Jcheckin.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				Jcheckin.setVisible(true);
+			}
+		});
 		btnNewButton_1.setBounds(10, 234, 133, 41);
 		contentPane.add(btnNewButton_1);
 

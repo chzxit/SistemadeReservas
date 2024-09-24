@@ -21,8 +21,8 @@ public class JCheckIn extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JCheckIn frame = new JCheckIn();
-					frame.setVisible(true);
+					JCheckIn Jcheckin = new JCheckIn();
+					Jcheckin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -54,11 +54,19 @@ public class JCheckIn extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(10, 214, 157, 48);
+		btnNewButton.setBounds(287, 214, 157, 48);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_2 = new JButton("Resgistrar Check-in");
-		btnNewButton_2.setBounds(283, 214, 147, 48);
-		contentPane.add(btnNewButton_2);
+		JButton btnNewButton_1 = new JButton("Reservar Quarto");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JReserva jReserva = new JReserva();
+				jReserva.setLocationRelativeTo(jReserva);
+				jReserva.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				jReserva.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(10, 214, 157, 48);
+		contentPane.add(btnNewButton_1);
 	}
 }

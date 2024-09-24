@@ -6,15 +6,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JLogin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField textFieldUsuario;
 	private JPasswordField passwordField;
 
 	public static void main(String[] args) {
@@ -44,10 +47,10 @@ public class JLogin extends JFrame {
 		lblNewLabel.setBounds(191, 23, 46, 14);
 		contentPane.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(158, 98, 104, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldUsuario = new JTextField();
+		textFieldUsuario.setBounds(158, 98, 104, 20);
+		contentPane.add(textFieldUsuario);
+		textFieldUsuario.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Usuário");
 		lblNewLabel_1.setBounds(157, 81, 46, 14);
@@ -62,7 +65,25 @@ public class JLogin extends JFrame {
 		contentPane.add(lblNewLabel_2);
 		
 		JButton btnNewButton = new JButton("Cadastrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!textFieldUsuario.getText().isEmpty() && !passwordField.getText().isEmpty()){
+					telaPrincipal();
+				}else {
+					JOptionPane.showMessageDialog(btnNewButton, "Verifique os campos usuário e senha. " ," Aviso!! ", JOptionPane.WARNING_MESSAGE);
+				}
+				
+			}
+		});
 		btnNewButton.setBounds(335, 227, 89, 23);
 		contentPane.add(btnNewButton);
+	}
+	
+	public void telaPrincipal() {
+		dispose();
+		JPrincipal jPrincipal = new JPrincipal();
+		jPrincipal.setLocationRelativeTo(jPrincipal);
+		jPrincipal.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		jPrincipal.setVisible(true);
 	}
 }
