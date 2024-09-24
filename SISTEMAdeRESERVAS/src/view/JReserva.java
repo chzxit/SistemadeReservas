@@ -64,22 +64,19 @@ public class JReserva extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// vericação do botão de reservar:
 				Quarto quartoSelecionado = (Quarto) comboBox.getSelectedItem();
-				for (Quarto quarto : quartos) {
-					if (quartoSelecionado != null) {
-						if (quartoSelecionado.isDisponivel()) {
-							quarto.reservar();
-							JOptionPane.showMessageDialog(btnNewButton, "Quarto foi reservado com sucesso! ");
-							break;
-						}else if(!quartoSelecionado.isDisponivel()) {
-							JOptionPane.showMessageDialog(btnNewButton,
-									"O quarto está indisponivel no momento, escolha outro quarto. ");
-							break;
-						} 
-					}
 
+				if (quartoSelecionado != null) {
+					if (quartoSelecionado.isDisponivel()) {
+						quartoSelecionado.reservar();
+						
+					}else if(!quartoSelecionado.isDisponivel()) {
+						JOptionPane.showMessageDialog(btnNewButton, "Quarto indisponível, escolha outro. ");
+						
+					}
 				}
 
 			}
+
 		});
 		btnNewButton.setBounds(323, 221, 101, 29);
 		contentPane.add(btnNewButton);

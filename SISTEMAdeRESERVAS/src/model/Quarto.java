@@ -31,7 +31,7 @@ public class Quarto {
 	public void reservar() {
 		if (disponivel) {
 			this.disponivel = false;
-
+			JOptionPane.showMessageDialog(null, "Quarto foi reservado com sucesso! ");
 		}
 	}
 

@@ -1,17 +1,21 @@
 package model;
 
+import java.util.Date;
+
 public class Hospede {
 	private String nome;
 	private String telefone;
 	private String cpf;
 	private String cep;
+	private Date dataNascimento;
 
-	public Hospede(String nome, String telefone, String cpf, String cep) {
+	public Hospede(String nome, String telefone, String cpf, String cep, Date dataNascimento) {
 		super();
 		this.cep = cep;
 		this.cpf = cpf;
 		this.nome = nome;
 		this.telefone = telefone;
+		this.dataNascimento = dataNascimento;
 
 	}
 
@@ -47,4 +51,11 @@ public class Hospede {
 		this.cep = cep;
 	}
 
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 }

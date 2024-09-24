@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JCheckIn extends JFrame {
 
@@ -43,15 +45,20 @@ public class JCheckIn extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Cadastrar Hóspede");
-		btnNewButton.setBounds(10, 79, 157, 48);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JCadastrarHospede jCadastro = new JCadastrarHospede();
+				jCadastro.setLocationRelativeTo(jCadastro);
+				jCadastro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				jCadastro.setVisible(true);
+				
+			}
+		});
+		btnNewButton.setBounds(10, 214, 157, 48);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Quartos");
-		btnNewButton_1.setBounds(297, 79, 157, 48);
-		contentPane.add(btnNewButton_1);
-		
 		JButton btnNewButton_2 = new JButton("Resgistrar Check-in");
-		btnNewButton_2.setBounds(297, 231, 147, 31);
+		btnNewButton_2.setBounds(283, 214, 147, 48);
 		contentPane.add(btnNewButton_2);
 	}
 }
