@@ -27,6 +27,8 @@ public class JCadastrarHospede extends JFrame {
 	private JTextField textFieldCpf;
 	private JTextField textFieldCep;
 	private JTextField textFieldTelefone;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -50,9 +52,9 @@ public class JCadastrarHospede extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Cadastrar Hospede");
+		JLabel lblNewLabel = new JLabel("Cadastrar Hóspede");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
-		lblNewLabel.setBounds(190, 11, 179, 36);
+		lblNewLabel.setBounds(200, 10, 179, 36);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("NOME:");
@@ -114,5 +116,23 @@ public class JCadastrarHospede extends JFrame {
 		});
 		btnNewButton.setBounds(435, 319, 117, 36);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblNewLabel_6 = new JLabel("DATA:");
+		lblNewLabel_6.setBounds(21, 288, 45, 13);
+		contentPane.add(lblNewLabel_6);
+		
+		textField = new JTextField();
+		textField.setBounds(20, 305, 96, 19);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_7 = new JLabel("HORA:");
+		lblNewLabel_7.setBounds(410, 228, 45, 13);
+		contentPane.add(lblNewLabel_7);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(410, 244, 96, 19);
+		contentPane.add(textField_1);
+		textField_1.setColumns(10);
 	}
 }
