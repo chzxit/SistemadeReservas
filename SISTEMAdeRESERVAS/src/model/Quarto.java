@@ -40,4 +40,15 @@ public class Quarto {
 		return " Quarto " + numero;
 	}
 
+	public void contaQuarto() {
+		int valorDiaria = 200;
+		int quantidadeDias = 3;
+		double conta = valorDiaria * quantidadeDias;
+
+		double pix = conta * 0;
+		double dinheiro = conta * 0;
+		
+
+	}
+
 }
