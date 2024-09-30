@@ -107,6 +107,7 @@ public class JCadastrarHospede extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(!textFieldNome.getText().isEmpty() && !textFieldCpf.getText().isEmpty()){
+					
 					JOptionPane.showMessageDialog(btnNewButton, "Hóspede cadastrado com sucesso! ");
 					
 				}else {

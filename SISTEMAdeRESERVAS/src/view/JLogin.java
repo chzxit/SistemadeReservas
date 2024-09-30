@@ -5,6 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.DAO;
+import model.Hospede;
+import model.Usuario;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -35,6 +40,7 @@ public class JLogin extends JFrame {
 
 	
 	public JLogin() {
+		DAO dao = new DAO();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -68,8 +74,10 @@ public class JLogin extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!textFieldUsuario.getText().isEmpty() && !passwordField.getText().isEmpty()){
-					
+					Usuario usuario = new Usuario(textFieldUsuario.getText(),passwordField.getText());
+					dao.cadastrarUsuario(usuario);
 					telaPrincipal();
+					
 				}else {
 					JOptionPane.showMessageDialog(btnNewButton, "Verifique os campos usuário e senha. " ," Aviso!! ", JOptionPane.WARNING_MESSAGE);
 				}
@@ -78,6 +86,15 @@ public class JLogin extends JFrame {
 		});
 		btnNewButton.setBounds(335, 227, 89, 23);
 		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Entrar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnNewButton_1.setBounds(10, 228, 85, 21);
+		contentPane.add(btnNewButton_1);
 	}
 	
 	public void telaPrincipal() {
