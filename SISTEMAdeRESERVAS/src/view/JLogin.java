@@ -68,6 +68,7 @@ public class JLogin extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!textFieldUsuario.getText().isEmpty() && !passwordField.getText().isEmpty()){
+					
 					telaPrincipal();
 				}else {
 					JOptionPane.showMessageDialog(btnNewButton, "Verifique os campos usuário e senha. " ," Aviso!! ", JOptionPane.WARNING_MESSAGE);

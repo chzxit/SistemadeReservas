@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class Conexao {
 	private static Conexao instancia;
 	private static String DRIVER = "org.sqlite.JDBC";
-	private static String BD = "jdbc:sqlite:resources/bdcliente.db";
+	private static String BD = "jdbc:sqlite:resources/bdSistemadeReservas.db";
 	private static Connection conexao;
 
 	private Conexao() {
