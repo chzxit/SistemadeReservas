@@ -15,15 +15,15 @@ public class DAO {
 	private static PreparedStatement preparedStatement = null;
 	private static ResultSet resultSet = null;
 
-	private static String CADASTRAR_HOSPEDE = " INSERT INTO HOSPEDE (ID, NOME, CPF, CEP, TELEFONE, DATANASCIMENTO ) VALUES(NULL,?,?,?,?,?)";
+	private static String CADASTRAR_HOSPEDES = " INSERT INTO HOSPEDES (ID, NOME, CPF, CEP, TELEFONE, DATANASCIMENTO ) VALUES(NULL,?,?,?,?,?)";
 
-	private static String CONSULTAR_HOSPEDE = " SELECT * FROM HOSPEDE  WHERE ID = ? ";
+	private static String CONSULTAR_HOSPEDES = " SELECT * FROM HOSPEDES  WHERE ID = ? ";
 
-	private static String ALTERAR_HOSPEDE = " UPDATE HOSPEDE SET NOME = ? , CPF = ?, CEP = ?, TELEFONE = ?, DATANASCIMENTO = ? WHERE ID = ? ";
+	private static String ALTERAR_HOSPEDES = " UPDATE HOSPEDES SET NOME = ? , CPF = ?, CEP = ?, TELEFONE = ?, DATANASCIMENTO = ? WHERE ID = ? ";
 
-	private static String EXCLUIR_HOSPEDE = " DELETE FROM HOSPEDE  WHERE ID = ? ";
+	private static String EXCLUIR_HOSPEDES = " DELETE FROM HOSPEDES  WHERE ID = ? ";
 
-	private static String LISTAR_HOSPEDE = " SELECT * FROM HOSPEDE WHERE 1 = 1 ";
+	private static String LISTAR_HOSPEDES = " SELECT * FROM HOSPEDES WHERE 1 = 1 ";
 
 	private static String CONSULTAR_USUARIO = " SELECT NOME, SENHA  " + " FROM USUARIO " + " WHERE NOME = ? AND SENHA = ? ";
 
@@ -33,10 +33,10 @@ public class DAO {
 
 	}
 
-	public void cadastrarHospede(Hospede hospede) {
+	public void cadastrarHospedes(Hospede hospede) {
 		Connection connection = Conexao.getInstancia().abrirConexao();
 
-		String query = CADASTRAR_HOSPEDE;
+		String query = CADASTRAR_HOSPEDES;
 		try {
 			preparedStatement = connection.prepareStatement(query);
 
@@ -46,7 +46,7 @@ public class DAO {
 			preparedStatement.setString(i++, hospede.getCpf());
 			preparedStatement.setString(i++, hospede.getCep());
 			preparedStatement.setString(i++, hospede.getTelefone());
-			preparedStatement.setInt(i++, hospede.getDataNascimento());
+			preparedStatement.setString(i++, hospede.getDataNascimento());
 
 			preparedStatement.execute();
 			connection.commit();
@@ -61,10 +61,10 @@ public class DAO {
 
 	}
 
-	public Hospede consultarHospede(int id) throws Exception {
+	public Hospede consultarHospedes(int id) throws Exception {
 		Connection connection = Conexao.getInstancia().abrirConexao();
 
-		String query = CONSULTAR_HOSPEDE;
+		String query = CONSULTAR_HOSPEDES;
 		Hospede hospede = null;
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -77,9 +77,9 @@ public class DAO {
 
 			while (resultSet.next()) {
 
-				hospede = new Hospede(resultSet.getInt("id"), resultSet.getString("nome"),
+				hospede = new Hospede(resultSet.getString("id"), resultSet.getString("nome"),
 						resultSet.getString("Telefone"), resultSet.getString("cpf"), resultSet.getString("cep"),
-						resultSet.getInt("dataNascimento"));
+						resultSet.getString("dataNascimento"));
 
 			}
 
@@ -101,10 +101,10 @@ public class DAO {
 		}
 	}
 
-	public void alterarCliente(String id, Hospede hospede) {
+	public void alterarHospedes(String id, Hospede hospede) {
 		Connection connection = Conexao.getInstancia().abrirConexao();
 
-		String query = ALTERAR_HOSPEDE;
+		String query = ALTERAR_HOSPEDES;
 		try {
 			preparedStatement = connection.prepareStatement(query);
 
@@ -114,7 +114,7 @@ public class DAO {
 			preparedStatement.setString(i++, hospede.getCpf());
 			preparedStatement.setString(i++, hospede.getCep());
 			preparedStatement.setString(i++, hospede.getTelefone());
-			preparedStatement.setInt(i++, hospede.getDataNascimento());
+			preparedStatement.setString(i++, hospede.getDataNascimento());
 			preparedStatement.setString(i++, id);
 
 			preparedStatement.execute();
@@ -130,10 +130,10 @@ public class DAO {
 
 	}
 
-	public void excluirCliente(String id) {
+	public void excluirHospedes(String id) {
 		Connection connection = Conexao.getInstancia().abrirConexao();
 
-		String query = EXCLUIR_HOSPEDE;
+		String query = EXCLUIR_HOSPEDES;
 		try {
 			preparedStatement = connection.prepareStatement(query);
 
@@ -154,10 +154,10 @@ public class DAO {
 
 	}
 
-	public ArrayList<Hospede> listarHospede() throws Exception {
+	public ArrayList<Hospede> listarHospedes() throws Exception {
 		Connection connection = Conexao.getInstancia().abrirConexao();
 		ArrayList<Hospede> hospedes = new ArrayList<>();
-		String query = LISTAR_HOSPEDE;
+		String query = LISTAR_HOSPEDES;
 
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -166,9 +166,9 @@ public class DAO {
 
 			while (resultSet.next()) {
 
-				hospedes.add(new Hospede(resultSet.getInt("id"), resultSet.getString("nome"),
+				hospedes.add(new Hospede(resultSet.getString("id"), resultSet.getString("nome"),
 						resultSet.getString("telefone"), resultSet.getString("cpf"), resultSet.getString("cep"),
-						resultSet.getInt("dataNascimento")));
+						resultSet.getString("dataNascimento")));
 
 			}
 

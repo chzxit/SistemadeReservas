@@ -3,14 +3,14 @@ package model;
 import java.util.Date;
 
 public class Hospede {
-	private int id;
+	private String id;
 	private String nome;
 	private String telefone;
 	private String cpf;
 	private String cep;
-	private int dataNascimento;
+	private String dataNascimento;
 
-	public Hospede(int id, String nome, String telefone, String cpf, String cep, int dataNascimento) {
+	public Hospede(String id, String nome, String telefone, String cpf, String cep, String dataNascimento) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -21,11 +21,11 @@ public class Hospede {
 
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -61,11 +61,11 @@ public class Hospede {
 		this.cep = cep;
 	}
 
-	public int getDataNascimento() {
+	public String getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(int dataNascimento) {
+	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
