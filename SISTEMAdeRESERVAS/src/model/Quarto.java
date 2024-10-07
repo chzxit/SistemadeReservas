@@ -3,20 +3,30 @@ package model;
 import javax.swing.JOptionPane;
 
 public class Quarto {
-	private int numero;
+	private String id;
+	private String numero;
 	private boolean disponivel;
 
-	public Quarto(int numero, boolean disponivel) {
+	public Quarto(String numero, boolean disponivel, String id) {
 		this.disponivel = disponivel;
 		this.numero = numero;
+		this.id = id;
 
 	}
 
-	public int getNumero() {
+	public String getId() {
+		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
@@ -40,15 +50,5 @@ public class Quarto {
 		return " Quarto " + numero;
 	}
 
-	public void contaQuarto() {
-		int valorDiaria = 200;
-		int quantidadeDias = 3;
-		double conta = valorDiaria * quantidadeDias;
-
-		double pix = conta * 0;
-		double dinheiro = conta * 0;
-		
-
-	}
-
+	
 }

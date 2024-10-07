@@ -2,6 +2,7 @@ package dao;
 
 import controller.Conexao;
 import model.Hospede;
+import model.Quarto;
 import model.Usuario;
 
 import java.sql.Connection;
@@ -25,9 +26,14 @@ public class DAO {
 
 	private static String LISTAR_HOSPEDES = " SELECT * FROM HOSPEDES WHERE 1 = 1 ";
 
-	private static String CONSULTAR_USUARIO = " SELECT NOME, SENHA  " + " FROM USUARIO " + " WHERE NOME = ? AND SENHA = ? ";
+	private static String CONSULTAR_USUARIO = " SELECT NOME, SENHA  " + " FROM USUARIO "
+			+ " WHERE NOME = ? AND SENHA = ? ";
 
 	private static String CADASTRAR_USUARIO = " INSERT INTO USUARIO (NOME,SENHA ) VALUES(?,?)";
+
+	private static String CADASTRAR_QUARTOS = " INSERT INTO QUARTOS (ID, NUMERO ) VALUES(NULL,?)";
+
+	private static String LISTAR_QUARTOS = " SELECT * FROM HOSPEDES WHERE 1 = 1 ";
 
 	public DAO() {
 
@@ -41,7 +47,7 @@ public class DAO {
 			preparedStatement = connection.prepareStatement(query);
 
 			int i = 1;
-			
+
 			preparedStatement.setString(i++, hospede.getNome());
 			preparedStatement.setString(i++, hospede.getCpf());
 			preparedStatement.setString(i++, hospede.getCep());
@@ -229,7 +235,7 @@ public class DAO {
 			preparedStatement = connection.prepareStatement(query);
 
 			int i = 1;
-			
+
 			preparedStatement.setString(i++, usuario.getNome());
 			preparedStatement.setString(i++, usuario.getSenha());
 
@@ -258,6 +264,64 @@ public class DAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void cadastrarQuartos(Quarto quarto) {
+		Connection connection = Conexao.getInstancia().abrirConexao();
+
+		String query = CADASTRAR_QUARTOS;
+		try {
+			preparedStatement = connection.prepareStatement(query);
+
+			int i = 1;
+
+			preparedStatement.setString(i++, quarto.getNumero());
+
+			preparedStatement.execute();
+			connection.commit();
+			JOptionPane.showMessageDialog(null, "Quarto reservado com sucesso! ");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			fecharConexao();
+		}
+
+	}
+
+	public ArrayList<Quarto> listarQuartos() throws Exception {
+		Connection connection = Conexao.getInstancia().abrirConexao();
+		ArrayList<Quarto> quartos = new ArrayList<>();
+		String query = LISTAR_QUARTOS;
+
+		try {
+			preparedStatement = connection.prepareStatement(query);
+
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+
+				quartos.add(new Quarto(resultSet.getString("numero"), resultSet.getBoolean("disponivel"),
+						resultSet.getString("id")));
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			fecharConexao();
+		}
+
+		{
+			if (quartos.size() < 0) {
+
+				JOptionPane.showMessageDialog(null, "Não há quartos reservados ", "", JOptionPane.WARNING_MESSAGE);
+				throw new Exception("Não há quartos reservados");
+			}
+			return quartos;
 		}
 	}
 

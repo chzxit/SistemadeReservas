@@ -5,7 +5,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class ModeloTabela extends AbstractTableModel {
 
-	private static final String[] colunas = { "ID", "Nome", "Telefone", "CPF", "CEP", "DataNascimento" };
+	private static final String[] colunas = { "ID", "Nome", "Telefone", "CPF", "CEP", "DataNascimento"};
 	private ArrayList<Hospede> hospedes;
 
 	public ModeloTabela(ArrayList<Hospede> hospedes) {

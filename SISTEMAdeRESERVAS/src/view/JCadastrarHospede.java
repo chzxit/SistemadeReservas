@@ -28,8 +28,6 @@ public class JCadastrarHospede extends JFrame {
 	private JTextField textFieldCpf;
 	private JTextField textFieldCep;
 	private JTextField textFieldTelefone;
-	private JTextField textFieldData;
-	private JTextField textFieldHora;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -125,24 +123,6 @@ public class JCadastrarHospede extends JFrame {
 		});
 		btnNewButton.setBounds(435, 319, 117, 36);
 		contentPane.add(btnNewButton);
-
-		JLabel lblNewLabel_6 = new JLabel("DATA:");
-		lblNewLabel_6.setBounds(21, 288, 45, 13);
-		contentPane.add(lblNewLabel_6);
-
-		textFieldData = new JTextField();
-		textFieldData.setBounds(20, 305, 96, 19);
-		contentPane.add(textFieldData);
-		textFieldData.setColumns(10);
-
-		JLabel lblNewLabel_7 = new JLabel("HORA:");
-		lblNewLabel_7.setBounds(410, 228, 45, 13);
-		contentPane.add(lblNewLabel_7);
-
-		textFieldHora = new JTextField();
-		textFieldHora.setBounds(410, 244, 96, 19);
-		contentPane.add(textFieldHora);
-		textFieldHora.setColumns(10);
 	}
 
 	public void abrirCheckIn() {
