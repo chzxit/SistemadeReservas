@@ -69,9 +69,20 @@ public class JPrincipal extends JFrame {
 		contentPane.add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("Hospedes");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JHospedes Jhospedes = new JHospedes();
+				Jhospedes.setLocationRelativeTo(Jhospedes);
+				Jhospedes.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				Jhospedes.setVisible(true);
+				
+			}
+		});
 		btnNewButton_3.setBounds(360, 159, 133, 41);
 		contentPane.add(btnNewButton_3);
 	}
+	
+
 
 	
 }

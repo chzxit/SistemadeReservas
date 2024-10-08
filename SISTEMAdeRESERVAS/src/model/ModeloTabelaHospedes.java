@@ -3,12 +3,12 @@ package model;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
-public class ModeloTabela extends AbstractTableModel {
+public class ModeloTabelaHospedes extends AbstractTableModel {
 
 	private static final String[] colunas = { "ID", "Nome", "Telefone", "CPF", "CEP", "DataNascimento"};
 	private ArrayList<Hospede> hospedes;
 
-	public ModeloTabela(ArrayList<Hospede> hospedes) {
+	public ModeloTabelaHospedes(ArrayList<Hospede> hospedes) {
 		super();
 		this.hospedes = hospedes;
 	}

@@ -9,31 +9,31 @@ import javax.swing.table.TableRowSorter;
 
 import dao.DAO;
 import model.Hospede;
-
 import model.ModeloTabelaHospedes;
+import model.ModeloTabelaQuartos;
+import model.Quarto;
 
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.util.ArrayList;
 
-import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class JHospedes extends JFrame {
+public class JListarReservas extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private ArrayList<Hospede> hospedes;
-	private TableRowSorter<ModeloTabelaHospedes> rowSorter;
+	private ArrayList<Quarto> quartos;
+	private TableRowSorter<ModeloTabelaQuartos> rowSorter;
 	private JTable table;
-
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JHospedes Jhospedes = new JHospedes();
-					Jhospedes.setVisible(true);
+					JListarReservas frame = new JListarReservas();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -41,34 +41,34 @@ public class JHospedes extends JFrame {
 		});
 	}
 
-	// irá listar todos os hospedes cadastrados e os quartos ligados aos hospedes.//
-	public JHospedes() {
+	
+	public JListarReservas() {
 		DAO dao = new DAO();
 		try {
-			hospedes = dao.listarHospedes();
+			quartos = dao.listarQuartos();
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 612, 345);
+		setBounds(100, 100, 627, 324);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("HOSPEDES");
+		
+		JLabel lblNewLabel = new JLabel("QUARTOS");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
-		lblNewLabel.setBounds(236, 21, 100, 14);
+		lblNewLabel.setBounds(257, 43, 108, 14);
 		contentPane.add(lblNewLabel);
-
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(30, 59, 531, 218);
+		scrollPane.setBounds(43, 68, 523, 178);
 		contentPane.add(scrollPane);
-
-		ModeloTabelaHospedes modeloTabela = new ModeloTabelaHospedes(hospedes);
-
+		
+		ModeloTabelaQuartos modeloTabela = new ModeloTabelaQuartos(quartos);
+		
 		table = new JTable();
 		table.setModel(modeloTabela);
 		rowSorter = new TableRowSorter<>(modeloTabela);

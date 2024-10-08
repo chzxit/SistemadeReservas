@@ -33,7 +33,7 @@ public class DAO {
 
 	private static String CADASTRAR_QUARTOS = " INSERT INTO QUARTOS (ID, NUMERO ) VALUES(NULL,?)";
 
-	private static String LISTAR_QUARTOS = " SELECT * FROM HOSPEDES WHERE 1 = 1 ";
+	private static String LISTAR_QUARTOS = " SELECT * FROM QUARTOS WHERE 1 = 1 ";
 
 	public DAO() {
 
