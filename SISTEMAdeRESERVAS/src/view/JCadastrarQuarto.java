@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
 
-public class JReserva extends JFrame {
+public class JCadastrarQuarto extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -28,7 +28,7 @@ public class JReserva extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JReserva frame = new JReserva();
+					JCadastrarQuarto frame = new JCadastrarQuarto();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,7 +37,7 @@ public class JReserva extends JFrame {
 		});
 	}
 
-	public JReserva() {
+	public JCadastrarQuarto() {
 		DAO dao = new DAO();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,12 +53,12 @@ public class JReserva extends JFrame {
 		lblNewLabel.setBounds(219, 11, 115, 35);
 		contentPane.add(lblNewLabel);
 		// Array para criar os quartos:
-		Quarto[] quartos = { new Quarto("243", true, null), new Quarto("244", true, null),
-				new Quarto("245", true, null), new Quarto("246", true, null), new Quarto("247", true, null),
-				new Quarto("248", true, null), new Quarto("249", true, null), new Quarto("250", true, null),
-				new Quarto("251", true, null), new Quarto("252", true, null), new Quarto("253", true, null),
-				new Quarto("254", true, null), new Quarto("255", true, null), new Quarto("256", true, null),
-				new Quarto("257", true, null), new Quarto("258", true, null) };
+		Quarto[] quartos = { new Quarto("243", "Disponivel", null), new Quarto("244","Disponivel", null),
+				new Quarto("245", "Disponivel", null), new Quarto("246", "Disponivel", null), new Quarto("247", "Disponivel", null),
+				new Quarto("248", "Disponivel", null), new Quarto("249", "Disponivel", null), new Quarto("250", "Disponivel", null),
+				new Quarto("251", "Disponivel", null), new Quarto("252", "Disponivel", null), new Quarto("253", "Disponivel", null),
+				new Quarto("254", "Disponivel", null), new Quarto("255", "Disponivel", null), new Quarto("256", "Disponivel", null),
+				new Quarto("257", "Disponivel", null), new Quarto("258", "Disponivel", null) };
 
 			JComboBox <Quarto> comboBox = new JComboBox(quartos);
 			comboBox.setBounds(195, 106, 182, 29);
@@ -72,7 +72,7 @@ public class JReserva extends JFrame {
 				if (quartoSelecionado != null) {
 
 					dao.cadastrarQuartos(quartoSelecionado);
-					abrirCheckIn();
+					
 
 				}else {
 					JOptionPane.showMessageDialog(btnNewButton, "","Selecione o quarto desejado ",JOptionPane.WARNING_MESSAGE);
@@ -86,12 +86,4 @@ public class JReserva extends JFrame {
 		
 	}
 
-	public void abrirCheckIn() {
-		dispose();
-		JCheckIn Jcheckin = new JCheckIn();
-		Jcheckin.setLocationRelativeTo(Jcheckin);
-		Jcheckin.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		Jcheckin.setVisible(true);
-
-	}
 }

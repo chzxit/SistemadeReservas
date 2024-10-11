@@ -14,256 +14,176 @@ import javax.swing.JOptionPane;
 
 public class DAO {
 	private static PreparedStatement preparedStatement = null;
-	private static ResultSet resultSet = null;
 
-	private static String CADASTRAR_HOSPEDES = " INSERT INTO HOSPEDES (ID, NOME, CPF, CEP, TELEFONE, DATANASCIMENTO ) VALUES(NULL,?,?,?,?,?)";
+	private static final String CADASTRAR_HOSPEDES = "INSERT INTO HOSPEDES (ID, NOME, CPF, CEP, TELEFONE, DATANASCIMENTO) VALUES(NULL,?,?,?,?,?)";
 
-	private static String CONSULTAR_HOSPEDES = " SELECT * FROM HOSPEDES  WHERE ID = ? ";
+	private static final String CONSULTAR_HOSPEDES = "SELECT * FROM HOSPEDES WHERE ID = ?";
 
-	private static String ALTERAR_HOSPEDES = " UPDATE HOSPEDES SET NOME = ? , CPF = ?, CEP = ?, TELEFONE = ?, DATANASCIMENTO = ? WHERE ID = ? ";
+	private static final String ALTERAR_HOSPEDES = "UPDATE HOSPEDES SET NOME = ?, CPF = ?, CEP = ?, TELEFONE = ?, DATANASCIMENTO = ? WHERE ID = ?";
 
-	private static String EXCLUIR_HOSPEDES = " DELETE FROM HOSPEDES  WHERE ID = ? ";
+	private static final String EXCLUIR_HOSPEDES = "DELETE FROM HOSPEDES WHERE ID = ?";
 
-	private static String LISTAR_HOSPEDES = " SELECT * FROM HOSPEDES WHERE 1 = 1 ";
+	private static final String LISTAR_HOSPEDES = "SELECT * FROM HOSPEDES";
 
-	private static String CONSULTAR_USUARIO = " SELECT NOME, SENHA  " + " FROM USUARIO "
-			+ " WHERE NOME = ? AND SENHA = ? ";
+	private static final String CONSULTAR_USUARIO = "SELECT NOME, SENHA FROM USUARIO WHERE NOME = ? AND SENHA = ?";
 
-	private static String CADASTRAR_USUARIO = " INSERT INTO USUARIO (NOME,SENHA ) VALUES(?,?)";
+	private static final String CADASTRAR_USUARIO = "INSERT INTO USUARIO (NOME, SENHA) VALUES(?,?)";
 
-	private static String CADASTRAR_QUARTOS = " INSERT INTO QUARTOS (ID, NUMERO ) VALUES(NULL,?)";
+	private static final String CADASTRAR_QUARTOS = "INSERT INTO QUARTOS (ID,NUMERO, STATUS) VALUES (NULL,?,'disponivel')";
 
-	private static String LISTAR_QUARTOS = " SELECT * FROM QUARTOS WHERE 1 = 1 ";
+	private static final String RESERVAR_QUARTOS = "SELECT STATUS FROM QUARTOS WHERE NUMERO = ?";
 
-	public DAO() {
-
-	}
+	private static final String LISTAR_QUARTOS = "SELECT * FROM QUARTOS";
+	
+	
 
 	public void cadastrarHospedes(Hospede hospede) {
-		Connection connection = Conexao.getInstancia().abrirConexao();
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatement = connection.prepareStatement(CADASTRAR_HOSPEDES)) {
 
-		String query = CADASTRAR_HOSPEDES;
-		try {
-			preparedStatement = connection.prepareStatement(query);
-
-			int i = 1;
-
-			preparedStatement.setString(i++, hospede.getNome());
-			preparedStatement.setString(i++, hospede.getCpf());
-			preparedStatement.setString(i++, hospede.getCep());
-			preparedStatement.setString(i++, hospede.getTelefone());
-			preparedStatement.setString(i++, hospede.getDataNascimento());
+			preparedStatement.setString(1, hospede.getNome());
+			preparedStatement.setString(2, hospede.getCpf());
+			preparedStatement.setString(3, hospede.getCep());
+			preparedStatement.setString(4, hospede.getTelefone());
+			preparedStatement.setString(5, hospede.getDataNascimento());
 
 			preparedStatement.execute();
 			connection.commit();
-			JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso ");
+			JOptionPane.showMessageDialog(null, "Hóspede cadastrado com sucesso!");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			fecharConexao();
+			JOptionPane.showMessageDialog(null, "Erro ao cadastrar hóspede: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
 	public Hospede consultarHospedes(int id) throws Exception {
-		Connection connection = Conexao.getInstancia().abrirConexao();
-
-		String query = CONSULTAR_HOSPEDES;
 		Hospede hospede = null;
-		try {
-			preparedStatement = connection.prepareStatement(query);
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatement = connection.prepareStatement(CONSULTAR_HOSPEDES)) {
 
-			int i = 1;
-
-			preparedStatement.setInt(i++, id);
-
-			resultSet = preparedStatement.executeQuery();
-
-			while (resultSet.next()) {
-
-				hospede = new Hospede(resultSet.getString("id"), resultSet.getString("nome"),
-						resultSet.getString("Telefone"), resultSet.getString("cpf"), resultSet.getString("cep"),
-						resultSet.getString("dataNascimento"));
-
+			preparedStatement.setInt(1, id);
+			try (ResultSet resultSet = preparedStatement.executeQuery()) {
+				if (resultSet.next()) {
+					hospede = new Hospede(resultSet.getString("id"), resultSet.getString("nome"),
+							resultSet.getString("telefone"), resultSet.getString("cpf"), resultSet.getString("cep"),
+							resultSet.getString("dataNascimento"));
+				}
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			fecharConexao();
+			JOptionPane.showMessageDialog(null, "Erro ao consultar hóspede: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
-		{
-			if (hospede == null) {
-
-				JOptionPane.showMessageDialog(null, "Não foi possivel localizar o hóspede selecionado", "",
-						JOptionPane.WARNING_MESSAGE);
-				throw new Exception("Não foi possivel localizar o hóspede selecionado");
-			}
-			return hospede;
+		if (hospede == null) {
+			JOptionPane.showMessageDialog(null, "Não foi possível localizar o hóspede selecionado", "",
+					JOptionPane.WARNING_MESSAGE);
+			throw new Exception("Não foi possível localizar o hóspede selecionado");
 		}
+		return hospede;
 	}
 
 	public void alterarHospedes(String id, Hospede hospede) {
-		Connection connection = Conexao.getInstancia().abrirConexao();
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatement = connection.prepareStatement(ALTERAR_HOSPEDES)) {
 
-		String query = ALTERAR_HOSPEDES;
-		try {
-			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, hospede.getNome());
+			preparedStatement.setString(2, hospede.getCpf());
+			preparedStatement.setString(3, hospede.getCep());
+			preparedStatement.setString(4, hospede.getTelefone());
+			preparedStatement.setString(5, hospede.getDataNascimento());
+			preparedStatement.setString(6, id);
 
-			int i = 1;
-
-			preparedStatement.setString(i++, hospede.getNome());
-			preparedStatement.setString(i++, hospede.getCpf());
-			preparedStatement.setString(i++, hospede.getCep());
-			preparedStatement.setString(i++, hospede.getTelefone());
-			preparedStatement.setString(i++, hospede.getDataNascimento());
-			preparedStatement.setString(i++, id);
-
-			preparedStatement.execute();
+			preparedStatement.executeUpdate();
 			connection.commit();
-			JOptionPane.showMessageDialog(null, "Hóspede alterado com sucesso ");
+			JOptionPane.showMessageDialog(null, "Hóspede alterado com sucesso!");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			fecharConexao();
+			JOptionPane.showMessageDialog(null, "Erro ao alterar hóspede: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
 	public void excluirHospedes(String id) {
-		Connection connection = Conexao.getInstancia().abrirConexao();
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatement = connection.prepareStatement(EXCLUIR_HOSPEDES)) {
 
-		String query = EXCLUIR_HOSPEDES;
-		try {
-			preparedStatement = connection.prepareStatement(query);
-
-			int i = 1;
-
-			preparedStatement.setString(i++, id);
-
-			preparedStatement.execute();
+			preparedStatement.setString(1, id);
+			preparedStatement.executeUpdate();
 			connection.commit();
-			JOptionPane.showMessageDialog(null, "Hóspede excluido com sucesso ");
+			JOptionPane.showMessageDialog(null, "Hóspede excluído com sucesso!");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			fecharConexao();
+			JOptionPane.showMessageDialog(null, "Erro ao excluir hóspede: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
 	public ArrayList<Hospede> listarHospedes() throws Exception {
-		Connection connection = Conexao.getInstancia().abrirConexao();
 		ArrayList<Hospede> hospedes = new ArrayList<>();
-		String query = LISTAR_HOSPEDES;
-
-		try {
-			preparedStatement = connection.prepareStatement(query);
-
-			resultSet = preparedStatement.executeQuery();
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatement = connection.prepareStatement(LISTAR_HOSPEDES);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
 
 			while (resultSet.next()) {
-
 				hospedes.add(new Hospede(resultSet.getString("id"), resultSet.getString("nome"),
 						resultSet.getString("telefone"), resultSet.getString("cpf"), resultSet.getString("cep"),
 						resultSet.getString("dataNascimento")));
-
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			fecharConexao();
+			JOptionPane.showMessageDialog(null, "Erro ao listar hóspedes: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
-		{
-			if (hospedes.size() < 0) {
-
-				JOptionPane.showMessageDialog(null, "Não há hóspedes cadastrados ", "", JOptionPane.WARNING_MESSAGE);
-				throw new Exception("Não há hóspedes cadastrados");
-			}
-			return hospedes;
+		if (hospedes.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Não há hóspedes cadastrados.", "", JOptionPane.WARNING_MESSAGE);
+			throw new Exception("Não há hóspedes cadastrados");
 		}
+		return hospedes;
 	}
 
 	public Usuario consultarUsuario(String nome, String senha) throws Exception {
-		Connection connection = Conexao.getInstancia().abrirConexao();
 		Usuario usuario = null;
-		String query = CONSULTAR_USUARIO;
-		try {
-			preparedStatement = connection.prepareStatement(query);
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatement = connection.prepareStatement(CONSULTAR_USUARIO)) {
 
-			int i = 1;
+			preparedStatement.setString(1, nome);
+			preparedStatement.setString(2, senha);
 
-			preparedStatement.setString(i++, nome);
-			preparedStatement.setString(i++, senha);
-
-			resultSet = preparedStatement.executeQuery();
-
-			while (resultSet.next()) {
-
-				usuario = new Usuario(resultSet.getString("NOME"), resultSet.getString("SENHA"));
+			try (ResultSet resultSet = preparedStatement.executeQuery()) {
+				if (resultSet.next()) {
+					usuario = new Usuario(resultSet.getString("NOME"), resultSet.getString("SENHA"));
+				}
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			fecharConexao();
+			JOptionPane.showMessageDialog(null, "Erro ao consultar usuário: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
+
 		if (usuario == null) {
-			JOptionPane.showMessageDialog(null, "Usuário não cadastrado ", "", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Usuário não cadastrado.", "", JOptionPane.WARNING_MESSAGE);
 			throw new Exception("Usuário não cadastrado");
 		}
 		return usuario;
-
 	}
 
 	public void cadastrarUsuario(Usuario usuario) {
-		Connection connection = Conexao.getInstancia().abrirConexao();
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatement = connection.prepareStatement(CADASTRAR_USUARIO)) {
 
-		String query = CADASTRAR_USUARIO;
-		try {
-			preparedStatement = connection.prepareStatement(query);
-
-			int i = 1;
-
-			preparedStatement.setString(i++, usuario.getNome());
-			preparedStatement.setString(i++, usuario.getSenha());
+			preparedStatement.setString(1, usuario.getNome());
+			preparedStatement.setString(2, usuario.getSenha());
 
 			preparedStatement.execute();
 			connection.commit();
-			JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso ");
+			JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			fecharConexao();
-		}
-
-	}
-
-	private void fecharConexao() {
-		try {
-			if (resultSet != null) {
-			}
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
-
-			Conexao.getInstancia().fecharConexao();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao cadastrar usuário: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -280,49 +200,71 @@ public class DAO {
 
 			preparedStatement.execute();
 			connection.commit();
-			JOptionPane.showMessageDialog(null, "Quarto reservado com sucesso! ");
+			JOptionPane.showMessageDialog(null, "Quarto cadastrado com sucesso! ");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 
-		} finally {
-			fecharConexao();
-		}
+		} 
 
+	}
+
+	public void reservarQuartos(Quarto quarto) {
+		String queryVerifica = "SELECT STATUS FROM QUARTOS WHERE NUMERO = ?";
+		String queryAtualiza = "UPDATE QUARTOS SET STATUS = 'indisponivel' WHERE NUMERO = ?";
+		String queryReservar = RESERVAR_QUARTOS;
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatementVerifica = connection.prepareStatement(queryVerifica);
+				PreparedStatement preparedStatementAtualiza = connection.prepareStatement(queryAtualiza);
+				PreparedStatement preparedStatementReservar = connection.prepareStatement(queryReservar)) {
+
+			// Verifica o status do quarto
+			preparedStatementVerifica.setString(1, quarto.getNumero());
+			ResultSet resultSet = preparedStatementVerifica.executeQuery();
+
+			if (resultSet.next()) {
+				// Se o quarto estiver disponível, reserve-o (altere o status para
+				// 'indisponível')
+				String status = resultSet.getString("STATUS");
+				if ("disponivel".equals(status)) {
+					preparedStatementAtualiza.setString(1, quarto.getNumero());
+					preparedStatementAtualiza.executeUpdate();
+					connection.commit();
+					JOptionPane.showMessageDialog(null, "Quarto reservado com sucesso!");
+				} else {
+					JOptionPane.showMessageDialog(null, "Este quarto não está disponível para reserva.");
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Quarto não encontrado.");
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro ao reservar quarto: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	public ArrayList<Quarto> listarQuartos() throws Exception {
-		Connection connection = Conexao.getInstancia().abrirConexao();
 		ArrayList<Quarto> quartos = new ArrayList<>();
-		String query = LISTAR_QUARTOS;
-
-		try {
-			preparedStatement = connection.prepareStatement(query);
-
-			resultSet = preparedStatement.executeQuery();
+		try (Connection connection = Conexao.getInstancia().abrirConexao();
+				PreparedStatement preparedStatement = connection.prepareStatement(LISTAR_QUARTOS);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
 
 			while (resultSet.next()) {
-
-				quartos.add(new Quarto(resultSet.getString("numero"), resultSet.getBoolean("disponivel"),
-						resultSet.getString("id")));
-
+				quartos.add(new Quarto(resultSet.getString("id"), resultSet.getString("numero"),
+						resultSet.getString("status")));
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			fecharConexao();
+			JOptionPane.showMessageDialog(null, "Erro ao listar quartos: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
-		{
-			if (quartos.size() < 0) {
-
-				JOptionPane.showMessageDialog(null, "Não há quartos reservados ", "", JOptionPane.WARNING_MESSAGE);
-				throw new Exception("Não há quartos reservados");
-			}
-			return quartos;
+		if (quartos.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Não há quartos cadastrados.", "", JOptionPane.WARNING_MESSAGE);
+			throw new Exception("Não há quartos cadastrados");
 		}
+		return quartos;
 	}
-
+	
 }

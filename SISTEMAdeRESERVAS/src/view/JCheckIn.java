@@ -60,10 +60,11 @@ public class JCheckIn extends JFrame {
 		JButton btnNewButton_1 = new JButton("Reservar Quarto");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JReserva jReserva = new JReserva();
-				jReserva.setLocationRelativeTo(jReserva);
-				jReserva.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-				jReserva.setVisible(true);
+				JReservas Jreservas = new JReservas();
+				Jreservas.setLocationRelativeTo(Jreservas);
+				Jreservas.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				Jreservas.setVisible(true);
+				
 			}
 		});
 		btnNewButton_1.setBounds(10, 214, 157, 48);
